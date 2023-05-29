@@ -20,6 +20,7 @@ public class TaskRepository {
     public static int getNextId(){
         return tasks.size();
     }
+
     public Task create(Task task) {
         var exists = exists(task);
         if(exists){
@@ -30,9 +31,21 @@ public class TaskRepository {
         return task;
     }
 
-    public boolean exists(Task task){
-        return tasks.stream().anyMatch(savedTask -> savedTask.getTitle().equals(task.getTitle()) && savedTask.getDescription().equals(task.getDescription()));
+    public boolean existsByTitleAndDescription(String title, String description){
+        return tasks.stream()
+                .anyMatch(savedTask -> savedTask.getTitle().equals(title) && savedTask.getDescription().equals(description));
     }
+
+    public boolean existsById(Integer id){
+        return tasks.stream()
+                .anyMatch(savedTask -> savedTask.getId().equals(id));
+    }
+
+    public boolean exists(Task task){
+        return tasks.stream()
+                .anyMatch(savedTask -> savedTask.getTitle().equals(task.getTitle()) && savedTask.getDescription().equals(task.getDescription()));
+    }
+
     public Optional<Task> findById(int id) {
         return tasks.stream()
                 .filter(task -> task.getId() == id)
